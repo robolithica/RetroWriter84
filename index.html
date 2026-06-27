@@ -128,6 +128,15 @@ if (Object.keys(docs).length === 0) {
 } else {
     openDoc(Object.keys(docs)[0]);
 }
+function renameDoc(id) {
+    const newTitle = prompt("Document name:", docs[id].title);
+
+    if (newTitle !== null && newTitle.trim() !== "") {
+        docs[id].title = newTitle.trim();
+        saveAll();
+        renderList();
+    }
+}
 </script>
 
 </body>
