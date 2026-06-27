@@ -2,78 +2,133 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Retro Writer</title>
 
 <style>
-@font-face {
-    font-family: "IBM";
-    src: url("fonts/PxPlus_IBM_VGA8.woff2") format("woff2");
-}
-
 body {
     margin: 0;
     background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
+    color: #33ff66;
+    font-family: monospace;
 }
 
-#screen {
-    width: 100%;
-    max-width: 900px;
-    padding: 40px 30px;
+#app {
+    display: flex;
+    height: 100vh;
+}
+
+/* LEFT PANEL (documents) */
+#sidebar {
+    width: 220px;
+    border-right: 1px solid #33ff66;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.doc {
+    padding: 6px;
+    cursor: pointer;
+}
+
+.doc:hover {
+    background: #003300;
+}
+
+.active {
+    background: #005500;
+}
+
+/* RIGHT PANEL (editor) */
+#editorWrap {
+    flex: 1;
+    padding: 30px;
 }
 
 #editor {
-    color: #33ff66;
-    font-family: "IBM", monospace;
-    font-size: 20px;
-    line-height: 1.4;
-    white-space: pre-wrap;
+    width: 100%;
+    height: 100%;
     outline: none;
-
-    text-shadow:
-        0 0 3px #33ff66,
-        0 0 10px #33ff66;
-}
-
-#cursor {
-    display: inline-block;
-    width: 10px;
-    background: #33ff66;
-    margin-left: 2px;
-    animation: blink 1s steps(2, start) infinite;
-}
-
-@keyframes blink {
-    to {
-        visibility: hidden;
-    }
+    white-space: pre-wrap;
+    text-shadow: 0 0 6px #33ff66;
 }
 </style>
 </head>
 
 <body>
-<div id="screen">
-    <div id="editor" contenteditable="true"></div>
+
+<div id="app">
+
+    <div id="sidebar">
+        <div onclick="newDoc()">+ NEW</div>
+        <div id="docList"></div>
+    </div>
+
+    <div id="editorWrap">
+        <div id="editor" contenteditable="true"></div>
+    </div>
+
 </div>
 
 <script>
+let docs = JSON.parse(localStorage.getItem("docs") || "{}");
+let currentId = null;
+
 const editor = document.getElementById("editor");
+const list = document.getElementById("docList");
 
-// load saved text
-editor.textContent = localStorage.getItem("retro_text") || "";
+function saveAll() {
+    localStorage.setItem("docs", JSON.stringify(docs));
+}
 
-// autosave
+function renderList() {
+    list.innerHTML = "";
+
+    Object.keys(docs).forEach(id => {
+        const div = document.createElement("div");
+        div.className = "doc" + (id === currentId ? " active" : "");
+        div.textContent = docs[id].title || "Untitled";
+
+        div.onclick = () => openDoc(id);
+
+        list.appendChild(div);
+    });
+}
+
+function openDoc(id) {
+    currentId = id;
+    editor.textContent = docs[id].content;
+    renderList();
+}
+
+function newDoc() {
+    const id = Date.now().toString();
+
+    docs[id] = {
+        title: "Untitled",
+        content: ""
+    };
+
+    saveAll();
+    renderList();
+    openDoc(id);
+}
+
 editor.addEventListener("input", () => {
-    localStorage.setItem("retro_text", editor.textContent);
+    if (!currentId) return;
+
+    docs[currentId].content = editor.textContent;
+    saveAll();
 });
 
-// optional: keep focus like a real terminal
-window.addEventListener("load", () => editor.focus());
-document.addEventListener("touchstart", () => editor.focus());
+
+// boot
+if (Object.keys(docs).length === 0) {
+    newDoc();
+} else {
+    openDoc(Object.keys(docs)[0]);
+}
 </script>
+
 </body>
 </html>
