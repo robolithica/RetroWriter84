@@ -36,9 +36,10 @@ body {
 }
 
 .active {
-    background: #005500;
+    background: #003300;
+    border-left: 3px solid #33ff66;
+    padding-left: 3px;
 }
-
 /* RIGHT PANEL (editor) */
 #editorWrap {
     flex: 1;
@@ -86,22 +87,30 @@ function renderList() {
 
     Object.keys(docs).forEach(id => {
         const div = document.createElement("div");
-        div.className = "doc" + (id === currentId ? " active" : "");
+        div.className = "doc";
+
+        if (id === currentId) {
+            div.classList.add("active");
+        }
+
         div.textContent = docs[id].title || "Untitled";
 
-       div.onclick = () => openDoc(id);
+        div.onclick = () => openDoc(id);
         div.ondblclick = () => renameDoc(id);
 
         list.appendChild(div);
     });
 }
-
 function openDoc(id) {
     currentId = id;
     editor.textContent = docs[id].content;
     renderList();
-}
 
+    // force focus back into editor
+    setTimeout(() => {
+        editor.focus();
+    }, 0);
+}
 function newDoc() {
     const id = Date.now().toString();
 
