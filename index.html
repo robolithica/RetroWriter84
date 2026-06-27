@@ -71,7 +71,7 @@ body {
     <div id="editorWrap">
         <div id="editor" contenteditable="true"></div>
     </div>
-
+<input type="file" id="fileInput" accept=".txt" style="display:none;">
 </div>
 
 <script>
@@ -100,6 +100,7 @@ function renderList() {
 
         div.onclick = () => openDoc(id);
         div.ondblclick = () => renameDoc(id);
+        div.ondblclick = () => exportDoc(id);
 
         list.appendChild(div);
     });
@@ -150,6 +151,54 @@ function renameDoc(id) {
         renderList();
     }
 }
+
+function exportDoc(id) {
+    const text = docs[id].content;
+    const title = (docs[id].title || "Untitled") + ".txt";
+
+    const blob = new Blob([text], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = title;
+
+    document.body.appendChild(a);
+    a.click();
+
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+const fileInput = document.getElementById("fileInput");
+
+function importDoc() {
+    fileInput.click();
+}
+
+fileInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        const content = e.target.result;
+
+        const id = Date.now().toString();
+
+        docs[id] = {
+            title: file.name.replace(".txt", ""),
+            content: content
+        };
+
+        saveAll();
+        renderList();
+        openDoc(id);
+    };
+
+    reader.readAsText(file);
+});
 </script>
 
 </body>
