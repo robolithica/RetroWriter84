@@ -100,7 +100,6 @@ function renderList() {
 
         div.onclick = () => openDoc(id);
         div.ondblclick = () => renameDoc(id);
-        div.ondblclick = () => exportDoc(id);
 
         list.appendChild(div);
     });
@@ -170,35 +169,7 @@ function exportDoc(id) {
     URL.revokeObjectURL(url);
 }
 
-const fileInput = document.getElementById("fileInput");
 
-function importDoc() {
-    fileInput.click();
-}
-
-fileInput.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-        const content = e.target.result;
-
-        const id = Date.now().toString();
-
-        docs[id] = {
-            title: file.name.replace(".txt", ""),
-            content: content
-        };
-
-        saveAll();
-        renderList();
-        openDoc(id);
-    };
-
-    reader.readAsText(file);
-});
 </script>
 
 </body>
