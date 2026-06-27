@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Retro Writer</title>
+
+<style>
+@font-face {
+    font-family: "IBM";
+    src: url("fonts/PxPlus_IBM_VGA8.woff2") format("woff2");
+}
+
+body {
+    margin: 0;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+#screen {
+    width: 100%;
+    max-width: 900px;
+    padding: 40px 30px;
+}
+
+#editor {
+    color: #33ff66;
+    font-family: "IBM", monospace;
+    font-size: 20px;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    outline: none;
+
+    text-shadow:
+        0 0 3px #33ff66,
+        0 0 10px #33ff66;
+}
+
+#cursor {
+    display: inline-block;
+    width: 10px;
+    background: #33ff66;
+    margin-left: 2px;
+    animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+    to {
+        visibility: hidden;
+    }
+}
+</style>
+</head>
+
+<body>
+<div id="screen">
+    <div id="editor" contenteditable="true"></div>
+</div>
+
+<script>
+const editor = document.getElementById("editor");
+
+// load saved text
+editor.textContent = localStorage.getItem("retro_text") || "";
+
+// autosave
+editor.addEventListener("input", () => {
+    localStorage.setItem("retro_text", editor.textContent);
+});
+
+// optional: keep focus like a real terminal
+window.addEventListener("load", () => editor.focus());
+document.addEventListener("touchstart", () => editor.focus());
+</script>
+</body>
+</html>
