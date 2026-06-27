@@ -89,7 +89,8 @@ function renderList() {
         div.className = "doc" + (id === currentId ? " active" : "");
         div.textContent = docs[id].title || "Untitled";
 
-        div.onclick = () => openDoc(id);
+       div.onclick = () => openDoc(id);
+        div.ondblclick = () => renameDoc(id);
 
         list.appendChild(div);
     });
