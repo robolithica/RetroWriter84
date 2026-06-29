@@ -37,7 +37,9 @@ body {
 /* LEFT PANEL (documents) */
 #sidebar {
     width: 220px;
-    border-right: 1px solid #33ff66;
+   border-right-width: 1px;
+   border-right-style: solid;
+   border-right-color: #33ff66;
     padding: 40px 10px 10px 10px;
     box-sizing: border-box;
 }
@@ -72,6 +74,17 @@ body {
     line-height: 2.6;
     padding: 40px 20px 20px 20px;
 }
+
+#sidebar.hidden {
+    width: 0;
+    padding: 0;
+    overflow: hidden;
+    border-right: none;
+}
+#editorWrap {
+    flex: 1;
+    transition: all 0.2s ease;
+}    
 </style>
 </head>
 
@@ -80,7 +93,10 @@ body {
 <div id="app">
 
     <div id="sidebar">
-        <div onclick="newDoc()">+ NEW</div><br>
+<div onclick="toggleSidebar()" style="cursor:pointer; margin-bottom:10px;">
+☰ MENU
+</div>
+<div onclick="newDoc()">+ NEW</div><br>
 <div onclick="importDoc()">+ OPEN</div><br>
 <div onclick="saveDoc()">+ SAVE</div><br>
 <div onclick="deleteDoc()">+ DELETE</div>
@@ -265,6 +281,11 @@ function cleanFormatting() {
         el.style.color = "";
         el.style.backgroundColor = "";
     });
+}
+
+function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.classList.toggle("hidden");
 }
 </script>
 
