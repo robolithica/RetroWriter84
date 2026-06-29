@@ -8,11 +8,19 @@
 <link rel="apple-touch-icon" href="RetroWritericon.png">
 
 <style>
+
+@font-face {
+    font-family: "RetroIBM";
+    src: url("IBM_DOS_ISO8.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+}
+    
 body {
     margin: 0;
     background: #000;
     color: #33ff66;
-    font-family: monospace;
+    font-family: "RetroIBM", monospace;
     
 }
 
@@ -245,7 +253,7 @@ function saveDoc() {
 
 function cleanFormatting() {
     editor.querySelectorAll("*").forEach(el => {
-        el.style.fontFamily = "";
+        el.style.fontFamily = "RetroIBM";
         el.style.fontSize = "";
         el.style.color = "";
         el.style.backgroundColor = "";
