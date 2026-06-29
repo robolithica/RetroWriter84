@@ -88,13 +88,13 @@ body {
     flex: 1;
     transition: all 0.2s ease;
 }  
-#menuBtn {
-    position: absolute;
+##menuBtn {
+    position: fixed;
     top: 10px;
     left: 10px;
     cursor: pointer;
     color: #33ff66;
-    z-index: 9999;
+    z-index: 1000;
     font-size: 18px;
 }
     
@@ -104,11 +104,9 @@ body {
 <body>
 
 <div id="app">
-
+<div onclick="toggleSidebar()" id="menuBtn">☰</div>
     <div id="sidebar">
-<div onclick="toggleSidebar()" style="cursor:pointer; margin-bottom:10px;">
-☰ MENU
-</div>
+
 <div onclick="newDoc()">+ NEW</div><br>
 <div onclick="importDoc()">+ OPEN</div><br>
 <div onclick="saveDoc()">+ SAVE</div><br>
