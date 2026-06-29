@@ -33,11 +33,15 @@ body {
     <div onclick="toggleSidebar()" id="menuBtn">☰</div>
     display: flex;
     height: 100vh;
+    flex-direction: row;
 }
 
 /* LEFT PANEL (documents) */
 #sidebar {
-    width: 220px;
+   flex: 0 0 220px;
+   width: 220px;
+    min-width: 220px;
+    max-width: 220px;
    border-right-width: 1px;
    border-right-style: solid;
    border-right-color: #33ff66;
@@ -64,6 +68,9 @@ body {
 /* RIGHT PANEL (editor) */
 #editorWrap {
     flex: 1;
+    min-width: 0;
+    heigth: 100%;
+    box-sizing: border-box;
     padding: 30px;
 }
 
