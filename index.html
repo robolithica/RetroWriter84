@@ -30,7 +30,6 @@ body {
 }
 
 #app {
-    <div onclick="toggleSidebar()" id="menuBtn">☰</div>
     display: flex;
     height: 100vh;
     flex-direction: row;
@@ -69,9 +68,10 @@ body {
 #editorWrap {
     flex: 1;
     min-width: 0;
-    heigth: 100%;
+    height: 100%;
     box-sizing: border-box;
     padding: 30px;
+    transition: all 0.2s ease;
 }
 
 #editor {
@@ -86,16 +86,16 @@ body {
 }
 
 #sidebar.hidden {
+    flex: 0 0 0;
     width: 0;
+    min-width: 0;
+    max-width: 0;
     padding: 0;
     overflow: hidden;
     border-right: none;
 }
-#editorWrap {
-    flex: 1;
-    transition: all 0.2s ease;
-}  
-##menuBtn {
+
+#menuBtn {
     position: fixed;
     top: 10px;
     left: 10px;
