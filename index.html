@@ -65,8 +65,10 @@ body {
 
     <div id="sidebar">
         <div onclick="newDoc()">+ NEW</div>
-        <div id="docList"></div>
-    </div>
+<div onclick="importDoc()">+ OPEN</div>
+<div onclick="deleteDoc()">+ DELETE</div>
+<hr>
+<div id="docList"></div>    </div>
 
     <div id="editorWrap">
         <div id="editor" contenteditable="true"></div>
@@ -169,7 +171,62 @@ function exportDoc(id) {
     URL.revokeObjectURL(url);
 }
 
+const fileInput = document.getElementById("fileInput");
 
+function importDoc() {
+    fileInput.click();
+}
+
+fileInput.addEventListener("change", (event) => {
+
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+
+        const id = Date.now().toString();
+
+        docs[id] = {
+            title: file.name.replace(/\.txt$/i, ""),
+            content: e.target.result
+        };
+
+        saveAll();
+        renderList();
+        openDoc(id);
+    };
+
+    reader.readAsText(file);
+
+    fileInput.value = "";
+});
+
+function deleteDoc() {
+
+    if (!currentId) return;
+
+    const title = docs[currentId].title;
+
+    if (!confirm(`Delete "${title}"?`)) {
+        return;
+    }
+
+    delete docs[currentId];
+
+    saveAll();
+
+    const ids = Object.keys(docs);
+
+    if (ids.length > 0) {
+        openDoc(ids[0]);
+    } else {
+        currentId = null;
+        editor.textContent = "";
+        renderList();
+    }
+}
 </script>
 
 </body>
