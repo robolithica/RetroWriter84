@@ -30,6 +30,7 @@ body {
 }
 
 #app {
+    <div onclick="toggleSidebar()" id="menuBtn">☰</div>
     display: flex;
     height: 100vh;
 }
@@ -86,7 +87,17 @@ body {
 #editorWrap {
     flex: 1;
     transition: all 0.2s ease;
-}    
+}  
+#menuBtn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+    color: #33ff66;
+    z-index: 9999;
+    font-size: 18px;
+}
+    
 </style>
 </head>
 
