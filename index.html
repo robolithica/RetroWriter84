@@ -33,6 +33,8 @@ body {
     display: flex;
     height: 100vh;
     flex-direction: row;
+    width: 100vw;
+    overflow-x: hidden;
 }
 
 /* LEFT PANEL (documents) */
@@ -83,8 +85,9 @@ body {
     font-size: 15px;
     line-height: 2.6;
     padding: 40px 55px 20px 55px;
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
     word-break: break-word;
+    word-wrap: break-word;
 }
 
 #sidebar.hidden {
