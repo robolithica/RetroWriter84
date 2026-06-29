@@ -66,6 +66,7 @@ body {
     <div id="sidebar">
         <div onclick="newDoc()">+ NEW</div>
 <div onclick="importDoc()">+ OPEN</div>
+<div onclick="saveDoc()">SAVE</div>
 <div onclick="deleteDoc()">+ DELETE</div>
 <hr>
 <div id="docList"></div>    </div>
@@ -226,6 +227,13 @@ function deleteDoc() {
         editor.textContent = "";
         renderList();
     }
+}
+
+function saveDoc() {
+
+    if (!currentId) return;
+
+    exportDoc(currentId);
 }
 </script>
 
