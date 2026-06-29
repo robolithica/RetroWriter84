@@ -137,6 +137,12 @@ editor.addEventListener("input", () => {
     saveAll();
 });
 
+editor.addEventListener("paste", () => {
+    setTimeout(() => {
+        cleanFormatting();
+    }, 10);
+});
+
 
 // boot
 if (Object.keys(docs).length === 0) {
@@ -234,6 +240,15 @@ function saveDoc() {
     if (!currentId) return;
 
     exportDoc(currentId);
+}
+
+function cleanFormatting() {
+    editor.querySelectorAll("*").forEach(el => {
+        el.style.fontFamily = "";
+        el.style.fontSize = "";
+        el.style.color = "";
+        el.style.backgroundColor = "";
+    });
 }
 </script>
 
