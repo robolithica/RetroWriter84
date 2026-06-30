@@ -4,6 +4,7 @@ const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./manifest.json",
+  "./service-worker.js",
   "./RetroWritericon.png",
   "./WebPlus_IBM_BIOS.woff"
 ];
