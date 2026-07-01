@@ -190,12 +190,14 @@ editor.addEventListener("input", () => {
     saveAll();
 });
 
-editor.addEventListener("paste", () => {
-    setTimeout(() => {
-        cleanFormatting();
-    }, 10);
-});
+editor.addEventListener("paste", (e) => {
+    e.preventDefault();
 
+    const text = (e.clipboardData || window.clipboardData)
+        .getData("text/plain");
+
+    document.execCommand("insertText", false, text);
+});
 
 // boot
 if (Object.keys(docs).length === 0) {
@@ -293,15 +295,6 @@ function saveDoc() {
     if (!currentId) return;
 
     exportDoc(currentId);
-}
-
-function cleanFormatting() {
-    editor.querySelectorAll("*").forEach(el => {
-        el.style.fontFamily = "RetroIBM";
-        el.style.fontSize = "";
-        el.style.color = "";
-        el.style.backgroundColor = "";
-    });
 }
 
 function toggleSidebar() {
