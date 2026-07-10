@@ -108,6 +108,20 @@ body {
     font-size: 18px;
 }
 
+#statusBar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 24px;
+    border-top: 1px solid #33ff66;
+    background: #000;
+    color: #33ff66;
+    font-size: 14px;
+    padding: 4px 10px;
+    box-sizing: border-box;
+}
+
 </style>
 </head>
 
@@ -128,6 +142,13 @@ body {
        <div id="editor" contenteditable="true"></div>
     </div>
 <input type="file" id="fileInput" accept=".txt" style="display:none;">
+</div>
+
+<div id="statusBar">
+    Words: <span id="wordCount">0</span> |
+    Characters: <span id="characterCount">0</span> |
+    Pages: <span id="pageCount">0.0</span>
+    
 </div>
 
 <script>
@@ -306,6 +327,30 @@ if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./service-worker.js")
     .then(() => console.log("Service Worker Registered"));
 }
+
+function updateStats() {
+
+    const text = editor.textContent.trim();
+
+    const words = text === ""
+        ? 0
+        : text.split(/\s+/).length;
+
+    const pages = words / 250;
+
+    document.getElementById("wordCount").textContent = words;
+    document.getElementById("characterCount").textContent = characters;
+    document.getElementById("pageCount").textContent = pages.toFixed(1);
+}
+
+editor.addEventListener("input", () => {
+    if (!currentId) return;
+
+    docs[currentId].content = editor.textContent;
+    saveAll();
+
+    updateStats();
+});
 </script>
 
 </body>
