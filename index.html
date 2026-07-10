@@ -330,11 +330,15 @@ if ("serviceWorker" in navigator) {
 
 function updateStats() {
 
-    const text = editor.textContent.trim();
+    const text = editor.textContent;
 
-    const words = text === ""
+    const trimmed = text.trim();
+
+    const words = trimmed === ""
         ? 0
-        : text.split(/\s+/).length;
+        : trimmed.split(/\s+/).length;
+
+    const characters = text.length;
 
     const pages = words / 250;
 
@@ -342,7 +346,6 @@ function updateStats() {
     document.getElementById("characterCount").textContent = characters;
     document.getElementById("pageCount").textContent = pages.toFixed(1);
 }
-
 editor.addEventListener("input", () => {
     if (!currentId) return;
 
