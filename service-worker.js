@@ -1,4 +1,4 @@
-const CACHE_NAME = "retro-writer-v1";
+const CACHE_NAME = "retro-writer-v2";
 
 const FILES_TO_CACHE = [
   "./",
