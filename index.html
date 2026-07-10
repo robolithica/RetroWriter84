@@ -323,24 +323,26 @@ if ("serviceWorker" in navigator) {
 }
 
 function updateStats() {
+    const text = editor.textContent || "";
 
-    const text = editor.textContent;
-
-    const trimmed = text.trim();
-
-    const words = trimmed === ""
+    const words = text.trim() === ""
         ? 0
-        : trimmed.split(/\s+/).length;
+        : text.trim().split(/\s+/).length;
 
     const characters = text.length;
+    const pages = (words / 250).toFixed(1);
 
-    const pages = words / 250;
+    console.log({
+        words,
+        characters,
+        pages
+    });
 
     document.getElementById("wordCount").textContent = words;
     document.getElementById("characterCount").textContent = characters;
-    document.getElementById("pageCount").textContent = pages.toFixed(1);
+    document.getElementById("pageCount").textContent = pages;
 }
-editor.addEventListener("input", () => {
+    editor.addEventListener("input", () => {
     if (!currentId) return;
 
     docs[currentId].content = editor.textContent;
