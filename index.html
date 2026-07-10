@@ -186,6 +186,7 @@ function openDoc(id) {
     editor.textContent = docs[id].content;
     renderList();
 
+    updateStats();
     // force focus back into editor
     setTimeout(() => {
         editor.focus();
@@ -203,13 +204,6 @@ function newDoc() {
     renderList();
     openDoc(id);
 }
-
-editor.addEventListener("input", () => {
-    if (!currentId) return;
-
-    docs[currentId].content = editor.textContent;
-    saveAll();
-});
 
 editor.addEventListener("paste", (e) => {
     e.preventDefault();
@@ -354,6 +348,7 @@ editor.addEventListener("input", () => {
 
     updateStats();
 });
+    updateStats();
 </script>
 
 </body>
