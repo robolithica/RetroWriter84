@@ -231,10 +231,24 @@ function renameDoc(id) {
 }
 
 function exportDoc(id) {
-    const text = docs[id].content;
-    const title = (docs[id].title || "Untitled") + ".txt";
 
-    const blob = new Blob([text], { type: "text/plain" });
+    const content = docs[id].content;
+    const title = (docs[id].title || "Untitled") + ".html";
+
+    const html = `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>${docs[id].title}</title>
+</head>
+<body>
+${content}
+</body>
+</html>
+`;
+
+    const blob = new Blob([html], { type: "text/html" });
     const url = URL.createObjectURL(blob);
 
     const a = document.createElement("a");
@@ -247,7 +261,6 @@ function exportDoc(id) {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 }
-
 const fileInput = document.getElementById("fileInput");
 
 function importDoc() {
