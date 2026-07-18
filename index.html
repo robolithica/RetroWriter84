@@ -182,7 +182,7 @@ function renderList() {
 }
 function openDoc(id) {
     currentId = id;
-    editor.textContent = docs[id].content;
+    editor.innerHTML = docs[id].content;
     renderList();
 
     updateStats();
