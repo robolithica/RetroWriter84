@@ -276,17 +276,32 @@ fileInput.addEventListener("change", (event) => {
 
     reader.onload = function(e) {
 
-        const id = Date.now().toString();
+    const id = Date.now().toString();
 
-        docs[id] = {
-            title: file.name.replace(/\.txt$/i, ""),
-            content: e.target.result
-        };
+    let content = e.target.result;
 
-        saveAll();
-        renderList();
-        openDoc(id);
+    if (file.name.toLowerCase().endsWith(".html")) {
+
+        const parser = new DOMParser();
+        const htmlDoc = parser.parseFromString(content, "text/html");
+
+        content = htmlDoc.body.innerHTML;
+
+    } else {
+
+        content = e.target.result;
+
+    }
+
+    docs[id] = {
+        title: file.name.replace(/\.(txt|html)$/i, ""),
+        content: content
     };
+
+    saveAll();
+    renderList();
+    openDoc(id);
+};
 
     reader.readAsText(file);
 
