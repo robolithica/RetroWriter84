@@ -134,6 +134,7 @@ body {
 <div onclick="newDoc()">+ NEW</div><br>
 <div onclick="importDoc()">+ OPEN</div><br>
 <div onclick="saveDoc()">+ SAVE</div><br>
+<div onclick="closeDoc()">+ CLOSE</div><br>
 <div onclick="deleteDoc()">+ DELETE</div>
 <hr>
 <div id="docList"></div>    </div>
@@ -350,6 +351,17 @@ function updateStats() {
     updateStats();
 });
     updateStats();
+
+function closeDoc() {
+
+    if (!currentId) return;
+
+    currentId = null;
+
+    editor.innerHTML = "";
+
+    updateStats();
+}
 </script>
 
 </body>
