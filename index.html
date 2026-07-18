@@ -430,7 +430,7 @@ document.addEventListener("keydown", (e) => {
 
 function findNextChapter() {
 
-    const text = editor.innerText;
+    const text = editor.textContent;
     const selection = window.getSelection();
 
     let start = 0;
@@ -512,7 +512,7 @@ document.addEventListener("keydown", (e) => {
 
 function findPreviousChapter() {
 
-    const text = editor.innerText;
+    const text = editor.textContent;
     const selection = window.getSelection();
 
     let start = text.length;
