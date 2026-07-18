@@ -142,7 +142,7 @@ body {
     <div id="editorWrap">
        <div id="editor" contenteditable="true"></div>
     </div>
-<input type="file" id="fileInput" accept=".txt" style="display:none;">
+<input type="file" id="fileInput" accept=".txt,.html" style="display:none;">
 </div>
 
 <div id="statusBar">
@@ -152,7 +152,7 @@ body {
 </div>
 
 <script>
-let docs = JSON.parse(localStorage.getItem("docs") || "{}");
+let docs = {};
 let currentId = null;
 
 const editor = document.getElementById("editor");
@@ -356,9 +356,13 @@ function closeDoc() {
 
     if (!currentId) return;
 
+    delete docs[currentId];
+
     currentId = null;
 
     editor.innerHTML = "";
+
+    renderList();
 
     updateStats();
 }
