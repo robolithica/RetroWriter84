@@ -481,10 +481,12 @@ let index = start + 1 + match.index;
 
             editor.focus();
 
-            node.parentElement.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
+            const caretRect = range.getBoundingClientRect();
+
+editor.parentElement.scrollTo({
+    top: editor.parentElement.scrollTop + caretRect.top - 50,
+    behavior: "smooth"
+});
 
             break;
         }
