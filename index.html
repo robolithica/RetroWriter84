@@ -135,7 +135,7 @@ body {
 <div onclick="importDoc()">+ OPEN</div><br>
 <div onclick="saveDoc()">+ SAVE</div><br>
 <div onclick="closeDoc()">+ CLOSE</div><br>
-<div onclick="deleteDoc()">+ DELETE</div>
+<!--<div onclick="deleteDoc()">+ DELETE</div>-->
 <hr>
 <div id="docList"></div>    </div>
 
@@ -308,7 +308,7 @@ fileInput.addEventListener("change", (event) => {
     fileInput.value = "";
 });
 
-function deleteDoc() {
+/*function deleteDoc() {
 
     if (!currentId) return;
 
@@ -331,7 +331,7 @@ function deleteDoc() {
         editor.textContent = "";
         renderList();
     }
-}
+}*/
 
 function saveDoc() {
 
