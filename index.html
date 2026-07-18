@@ -446,15 +446,15 @@ function findNextChapter() {
         start = preCaretRange.toString().length;
     }
 
-    let searchText = text.substring(start);
+   let searchText = text.substring(start + 1);
 
-    let match = searchText.match(/CHAPTER\s+\d+/i);
+let match = searchText.match(/CHAPTER\s+\d+/i);
 
-    if (!match) {
-        return;
-    }
+if (!match) {
+    return;
+}
 
-    let index = start + match.index;
+let index = start + 1 + match.index;
 
     const range = document.createRange();
     const walker = document.createTreeWalker(
@@ -470,9 +470,9 @@ function findNextChapter() {
         if (position + node.length >= index) {
 
             range.setStart(
-                node,
-                index - position
-            );
+            node,
+            index - position + match[0].length
+);
 
             range.collapse(true);
 
