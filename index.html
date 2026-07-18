@@ -317,10 +317,10 @@ function toggleSidebar() {
     sidebar.classList.toggle("hidden");
 }
 
-if ("serviceWorker" in navigator) {
+/*if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./service-worker.js")
     .then(() => console.log("Service Worker Registered"));
-}
+}*/
 
 function updateStats() {
     const text = editor.textContent || "";
