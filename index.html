@@ -494,6 +494,90 @@ editor.parentElement.scrollTo({
         position += node.length;
     }
 }
+
+document.addEventListener("keydown", (e) => {
+
+    if (e.repeat) return;
+
+    // Alt + Up Arrow = previous chapter
+    if (e.altKey && e.key === "ArrowUp") {
+
+        e.preventDefault();
+
+        findPreviousChapter();
+    }
+
+});
+
+
+function findPreviousChapter() {
+
+    const text = editor.innerText;
+    const selection = window.getSelection();
+
+    let start = text.length;
+
+    if (selection.rangeCount > 0) {
+
+        const range = selection.getRangeAt(0);
+        const preCaretRange = range.cloneRange();
+
+        preCaretRange.selectNodeContents(editor);
+        preCaretRange.setEnd(range.endContainer, range.endOffset);
+
+        start = preCaretRange.toString().length;
+    }
+
+    const searchText = text.substring(0, start - 1);
+
+    const matches = [...searchText.matchAll(/CHAPTER\s+\d+/gi)];
+
+    if (matches.length === 0) {
+        return;
+    }
+
+    const match = matches[matches.length - 1];
+
+    const index = match.index;
+
+    const newRange = document.createRange();
+    const walker = document.createTreeWalker(
+        editor,
+        NodeFilter.SHOW_TEXT
+    );
+
+    let position = 0;
+    let node;
+
+    while (node = walker.nextNode()) {
+
+        if (position + node.length >= index) {
+
+            newRange.setStart(
+                node,
+                index - position + match[0].length
+            );
+
+            newRange.collapse(true);
+
+            selection.removeAllRanges();
+            selection.addRange(newRange);
+
+            editor.focus();
+
+            const caretRect = newRange.getBoundingClientRect();
+
+            editor.parentElement.scrollTo({
+                top: editor.parentElement.scrollTop + caretRect.top - 50,
+                behavior: "smooth"
+            });
+
+            break;
+        }
+
+        position += node.length;
+    }
+}
 </script>
 
 </body>
