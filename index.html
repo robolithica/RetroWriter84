@@ -436,24 +436,25 @@ function findNextChapter() {
     let start = 0;
 
     if (selection.rangeCount > 0) {
-        start = selection.getRangeAt(0).endOffset;
+
+        const range = selection.getRangeAt(0);
+        const preCaretRange = range.cloneRange();
+
+        preCaretRange.selectNodeContents(editor);
+        preCaretRange.setEnd(range.endContainer, range.endOffset);
+
+        start = preCaretRange.toString().length;
     }
 
-    const searchText = text.substring(start);
+    let searchText = text.substring(start);
 
-    const match = searchText.match(/CHAPTER\s+\d+/i);
+    let match = searchText.match(/CHAPTER\s+\d+/i);
 
     if (!match) {
         return;
     }
 
-    const chapterText = match[0];
-
-    const index = text.indexOf(chapterText, start);
-
-    if (index === -1) {
-        return;
-    }
+    let index = start + match.index;
 
     const range = document.createRange();
     const walker = document.createTreeWalker(
