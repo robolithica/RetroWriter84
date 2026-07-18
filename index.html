@@ -344,7 +344,7 @@ function updateStats() {
     editor.addEventListener("input", () => {
     if (!currentId) return;
 
-    docs[currentId].content = editor.textContent;
+    docs[currentId].content = editor.innerHTML;
     saveAll();
 
     updateStats();
