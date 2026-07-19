@@ -232,11 +232,11 @@ editor.addEventListener("paste", (e) => {
 });
 
 // boot
-if (Object.keys(docs).length === 0) {
-    newDoc();
-} else {
-    openDoc(Object.keys(docs)[0]);
-}
+currentId = null;
+editor.innerHTML = "";
+renderList();
+updateStats();
+    
 function renameDoc(id) {
     const newTitle = prompt("Document name:", docs[id].title);
 
